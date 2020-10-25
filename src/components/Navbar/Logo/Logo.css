@@ -1,0 +1,25 @@
+.logo {
+	width: 100px;
+	height: 100px;
+	background: linear-gradient(to right top, rgb(172, 255, 255), rgb(97, 200, 255), rgb(111, 156, 255));
+	/*margin-left: 5vh;*/
+	margin-top: 0;
+	border: 2px solid black;
+	box-shadow: 3px 3px 5px #444;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo:hover {
+	box-shadow: 10px 10px 8px black;
+}
+
+@media only screen and (max-width: 600px) {
+    .logo {
+    	width: 75px;
+    	height: 75px;
+    	padding-top: 10px;
+        font-size: 0.5em;
+    }
+}

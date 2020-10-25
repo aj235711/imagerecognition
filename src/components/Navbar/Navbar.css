@@ -1,0 +1,10 @@
+.center {
+	display: flex;
+	justify-content: space-between;
+	padding: 30px;
+}
+
+.shifter {
+	/*align-self: flex-end;*/
+	padding-top: 0px;
+}

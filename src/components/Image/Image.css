@@ -1,0 +1,33 @@
+.si {
+	margin-left: 25vw;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+.sizer {
+	width: 50vw;
+	height: auto;
+	/*padding: 20px;
+	border: 2px solid black;
+	margin: 50px;
+	background-color: rgba(140, 220, 200, 0.4);
+	box-shadow: 5px 5px 6px #444;
+	margin-left: 300px;*/
+
+}
+
+.bounding-box {
+    position: absolute;
+    box-shadow: 0 0 0 3px #149df2 inset;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+

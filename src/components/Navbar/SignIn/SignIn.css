@@ -1,0 +1,11 @@
+.mover {
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 10vw;
+}
+
+@media only screen and (max-width: 600px) {
+    p {
+        font-size: 0.7em;
+    }
+}
