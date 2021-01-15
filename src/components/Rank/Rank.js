@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Rank = () => {
+const Rank = ({ name, entries }) => {
 	return(
 		<div>
-			<p className = "white tc ma2 mt3 f3">Your rank on image recognition app is</p>
-			<p className = "white tc ma2 f3">#6</p>
+			<p className = "white tc ma2 mt3 f3">{ `${name}, your current entry count is...` }</p>
+			<p className = "white tc ma2 f3">{entries}</p>
 		</div>
 	);
 }

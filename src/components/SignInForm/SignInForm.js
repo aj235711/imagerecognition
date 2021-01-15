@@ -20,7 +20,7 @@ class SignInForm extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
-		fetch('http://localhost:3001/signIn', {
+		fetch('https://murmuring-beach-02776.herokuapp.com/signIn', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({
@@ -28,13 +28,15 @@ class SignInForm extends React.Component {
 				password: this.state.signInPassword
 			})
 		})
-			.then(response => response.json())
-			.then(data => {
-				if(data == "success") {
-					this.props.onRouteChange('home');
-				}
-			})
-
+		.then(response => response.json())
+		.then(user => {
+			if(user.id) {
+				this.props.loadUser(user);
+				this.props.onRouteChange('home');
+			} else {
+				alert("Wrong username or password.");
+			}
+		})
 	}
 
 	render() {

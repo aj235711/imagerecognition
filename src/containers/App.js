@@ -13,7 +13,7 @@ import RegisterForm from '../components/RegisterForm/RegisterForm';
 const particles = {
 	particles: {
 		number: {
-			value: 15,
+			value: 30,
 			density: {
 				enable: true,
 				value_area: 175
@@ -24,32 +24,58 @@ const particles = {
 
 const app = new Clarifai.App({apiKey: 'b7a335f3bd9444378fe53481f839e244'});
 
+const originalState = {
+	input: '',
+	imageUrl: '',
+	boxes: [],
+	route: 'signIn',
+	isSignedIn: false, 
+	user: {
+		id: '',
+		name: '',
+		email: '',
+		entries: 0,
+		joined: ''
+	}
+}
+
 class App extends Component {
 	constructor() {
 		super();
-		this.state = {
-			input: '',
-			imageUrl: '',
-			box: {},
-			route: 'signIn'
-		}
+		this.state = originalState;
+	}
+
+	loadUser = (data) => {
+		const { id, name, email, entries, joined} = data;
+		this.setState({user: {
+			id: id,
+			name: name,
+			email: email,
+			entries: entries,
+			joined: joined
+		}})
 	}
 
 	calculateFaceBox = (data) => {
-		const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
+		console.log(data.outputs[0].data.regions);
+		const faceArray = data.outputs[0].data.regions;
 		const thisimage = document.getElementById("inputimage");
 		const width = Number(thisimage.width);
 		const height = Number(thisimage.height);
-		return {
-			leftCol: faceBox.left_col * width,
-			topRow: faceBox.top_row * height,
-			rightCol: (width - (faceBox.right_col * width)),
-			bottomRow: height - ((faceBox.bottom_row * height))
-		};
+		const faceBoxes = faceArray.map((face) => {
+			const faceBox = face.region_info.bounding_box;
+			return {
+				leftCol: faceBox.left_col * width,
+				topRow: faceBox.top_row * height,
+				rightCol: (width - (faceBox.right_col * width)),
+				bottomRow: height - ((faceBox.bottom_row * height))
+			}
+		});
+		return faceBoxes;
 	}
 
-	setBoxState = (box) => {
-		this.setState({box: box});
+	setBoxState = (boxes) => {
+		this.setState({boxes: boxes});
 	}
 
 	onInputChange = (event) => {
@@ -57,10 +83,23 @@ class App extends Component {
 	}
 
 	onSubmit = () => {
+		this.setState({boxes: []});
 		this.setState({imageUrl: this.state.input});
 		app.models.predict("a403429f2ddf4b49b307e318f00e528b", this.state.input)
 		.then(response => {
-			console.log(response);
+			if(response) {
+				fetch('https://murmuring-beach-02776.herokuapp.com/image', {
+					method: 'put',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({
+						id: this.state.user.id
+					})
+				})
+				.then(response => response.json())
+				.then(cnt => {
+					this.setState(Object.assign(this.state.user, {entries: cnt}));
+				})
+			}
 			this.setBoxState(this.calculateFaceBox(response))
 		})
 		.catch(error => console.log(error))
@@ -68,6 +107,10 @@ class App extends Component {
 
 	onRouteChange = (route) => {
 		this.setState({route: route})
+		if(route==='signIn') {
+			this.setState(originalState);
+			
+		}
 	}
 
     render() {
@@ -80,15 +123,15 @@ class App extends Component {
 	        {this.state.route === 'home' 
 		        ? 
 		        <div>
-			        <Rank />
+			        <Rank name = {this.state.user.name} entries = {this.state.user.entries}/>
 			        <Detectbox onSubmit = {this.onSubmit} onInputChange = {this.onInputChange} />
-			        <Image className = "absolute" imageUrl = {this.state.imageUrl} box = {this.state.box} />
+			        <Image className = "absolute" imageUrl = {this.state.imageUrl} boxes = {this.state.boxes} />
 		        </div> 
 		        : this.state.route === 'signIn'
 		        ?
-		        <SignInForm onRouteChange = {this.onRouteChange} />
+		        <SignInForm loadUser = {this.loadUser} onRouteChange = {this.onRouteChange} />
 		        :
-		        <RegisterForm onRouteChange = {this.onRouteChange} />
+		        <RegisterForm loadUser = {this.loadUser} onRouteChange = {this.onRouteChange} />
 	    	}
 	      </div>
 	    );

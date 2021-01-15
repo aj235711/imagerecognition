@@ -1,7 +1,7 @@
 import React from 'react';
 import './Image.css';
 
-const Image = ({ imageUrl, box }) => {
+const Image = ({ imageUrl, boxes }) => {
 	if(imageUrl === '') {
 		return(
 			<div />
@@ -10,7 +10,7 @@ const Image = ({ imageUrl, box }) => {
 		return(
 			<div className = "absolute si">
 				<img id = "inputimage" alt = "loading" src = {imageUrl} className = "sizer" />
-				<div className = "bounding-box" style = {{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
+				{boxes.map(box => (<div className = "bounding-box" style = {{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>))}
 			</div>
 		);
 	}
