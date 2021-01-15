@@ -13,7 +13,7 @@ import RegisterForm from '../components/RegisterForm/RegisterForm';
 const particles = {
 	particles: {
 		number: {
-			value: 30,
+			value: 10,
 			density: {
 				enable: true,
 				value_area: 175
