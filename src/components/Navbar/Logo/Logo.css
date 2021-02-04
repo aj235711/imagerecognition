@@ -1,7 +1,7 @@
 .logo {
 	width: 100px;
 	height: 100px;
-	background: linear-gradient(to right top, rgb(172, 255, 255), rgb(97, 200, 255), rgb(111, 156, 255));
+	background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(235, 235, 235, 0.8), rgba(220, 220, 220, 0.8));
 	/*margin-left: 5vh;*/
 	margin-top: 0;
 	border: 2px solid black;

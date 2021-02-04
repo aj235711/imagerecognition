@@ -13,12 +13,18 @@ import RegisterForm from '../components/RegisterForm/RegisterForm';
 const particles = {
 	particles: {
 		number: {
-			value: 10,
+			value: 12,
 			density: {
 				enable: true,
-				value_area: 175
+				value_area: 150,
 			}
 		},
+		color: {
+			value: "#000000"
+		},
+		line_linked: {
+			color: "#000000"
+		}
 	}
 }
 
